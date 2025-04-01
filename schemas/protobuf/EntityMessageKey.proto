@@ -1,0 +1,10 @@
+syntax = "proto3";
+package org.mcezario.schema.protobuf;
+
+option java_multiple_files = true;
+
+message EntityMessageKey {
+  string scope = 1;
+  int64 entity_id = 2;
+  int64 tenant_id = 3;
+}

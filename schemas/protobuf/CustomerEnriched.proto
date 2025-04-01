@@ -1,0 +1,11 @@
+syntax = "proto3";
+package org.mcezario.schema.protobuf;
+import "Customer.proto";
+import "Tenant.proto";
+
+option java_multiple_files = true;
+
+message CustomerEnriched {
+    Customer customer = 1;
+    Tenant tenant = 2;
+}
