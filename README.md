@@ -1,2 +1,2 @@
 # kafka-blueprint
-Repository exploring Kafka Producer/Consumer, Streams, and Schema Registry with protobuf in different languages
+Repository exploring Kafka with different programing languages dealing with Producer/Consumer, Streams, Schema Registry with protobuf, and Kafka connect.

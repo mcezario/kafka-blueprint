@@ -74,6 +74,13 @@
     </dependencies>
 
     <build>
+<!--        <sourceDirectory>${project.basedir}/applications/kafka-streams/src</sourceDirectory>-->
+<!--        <testSourceDirectory>${project.basedir}/applications/kafka-streams/test</testSourceDirectory>-->
+<!--&lt;!&ndash;        <resources>&ndash;&gt;-->
+<!--&lt;!&ndash;            <resource>&ndash;&gt;-->
+<!--&lt;!&ndash;                <directory>custom-resources</directory>&ndash;&gt;-->
+<!--&lt;!&ndash;            </resource>&ndash;&gt;-->
+<!--&lt;!&ndash;        </resources>&ndash;&gt;-->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -97,13 +104,13 @@
                         <configuration>
                             <protocArtifact>com.google.protobuf:protoc:${protobuf-java.version}</protocArtifact>
                             <inputDirectories>
-                                <include>${project.basedir}/schemas/protobuf/</include>
+                                <include>${project.basedir}/applications/kafka-streams/src/schemas/protobuf/</include>
                             </inputDirectories>
                             <outputTargets>
                                 <outputTarget>
                                     <type>java</type>
                                     <addSources>main</addSources>
-                                    <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                                    <outputDirectory>${project.basedir}/applications/kafka-streams/src/main/java</outputDirectory>
                                 </outputTarget>
                             </outputTargets>
                         </configuration>

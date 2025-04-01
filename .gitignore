@@ -1,6 +1,6 @@
 HELP.md
 target/
-!.mvn/wrapper/maven-wrapper.jar
+!applications/java-streams/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
@@ -34,4 +34,4 @@ build/
 
 
 ### Generated Schemas ###
-src/main/java/org/mcezario/schema/protobuf
+applications/java-streams/src/main/java/org/mcezario/schema/protobuf
