@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: kafkastreams
+  kafka:
+    bootstrap-servers: ${BROKERS_ADDRESSES:localhost:9092}
+    properties:
+      schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
+      sasl:
+        mechanism: PLAIN
+    streams:
+      application-id: kafka-streams-protobuf-app
+      properties:
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$LongSerde
+        default.value.serde: io.confluent.kafka.streams.serdes.protobuf.KafkaProtobufSerde
+    producer:
+      key-serializer: io.confluent.kafka.serializers.protobuf.KafkaProtobufSerializer
+      value-serializer: io.confluent.kafka.serializers.protobuf.KafkaProtobufSerializer

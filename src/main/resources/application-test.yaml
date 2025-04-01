@@ -1,0 +1,4 @@
+spring:
+  kafka:
+    properties:
+      schema.registry.url: mock://dummy:8081
