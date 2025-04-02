@@ -4,7 +4,7 @@
   - source venv/bin/activate
   - pip install -r requirements.txt
 - Create a new django project
-  - django-admin startproject tenant_api .
+  - django-admin startproject tenant_project .
 - Create a Django App
   - python manage.py startapp tenants
 - Apply migrations
