@@ -6,3 +6,6 @@ migrate:
 
 start-tenants:
 	python manage.py runserver
+
+run-tests:
+	pytest

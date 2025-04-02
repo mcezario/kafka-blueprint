@@ -1,6 +1,10 @@
-from django.urls import path
-from .views import create_tenant
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from tenants.views import TenantViewSet
+
+router = DefaultRouter()
+router.register(r'tenants', TenantViewSet, basename="tenant")
 
 urlpatterns = [
-    path('create/', create_tenant, name='create_tenant'),
+    path('api/', include(router.urls)),
 ]
