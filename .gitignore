@@ -32,6 +32,15 @@ build/
 ### VS Code ###
 .vscode/
 
-
 ### Generated Schemas ###
 applications/java-streams/src/main/java/org/mcezario/schema/protobuf
+
+### python-api ###
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# docker container volumes
+zoo
+.env

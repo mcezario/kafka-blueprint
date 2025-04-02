@@ -1,0 +1,12 @@
+# Local environment preparation
+- Install dependencies
+  - python -m venv venv
+  - source venv/bin/activate
+  - pip install -r requirements.txt
+- Create a new django project
+  - django-admin startproject tenant_project .
+- Create a Django App
+  - python manage.py startapp tenants
+- Apply migrations
+  - python manage.py makemigrations tenants
+  - python manage.py migrate
