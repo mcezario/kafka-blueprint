@@ -16,4 +16,8 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
             ],
         ),
+        migrations.RunSQL(
+            sql="ALTER TABLE tenants_tenant REPLICA IDENTITY FULL;",
+            reverse_sql="ALTER TABLE tenants_tenant REPLICA IDENTITY DEFAULT;"
+        )
     ]
