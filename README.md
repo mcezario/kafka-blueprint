@@ -24,5 +24,5 @@ POSTGRES_PASSWORD=dbpasswd
 
 ### Init local environment
   ```
-  init-local-environment
+  make init-local-environment
   ```

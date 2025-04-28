@@ -47,7 +47,7 @@ configure-kafka-connect:
         \"connector.class\": \"io.debezium.connector.postgresql.PostgresConnector\", \
         \"database.hostname\": \"db\", \
         \"database.port\": \"5432\", \
-		\"database.user\": \"$$POSTGRES_USER\", \
+        \"database.user\": \"$$POSTGRES_USER\", \
     	\"database.password\": \"$$POSTGRES_PASSWORD\", \
     	\"database.dbname\": \"$$POSTGRES_DB\", \
         \"database.server.name\": \"pg\", \
