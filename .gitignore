@@ -44,3 +44,4 @@ __pycache__/
 # docker container volumes
 zoo
 .env
+plugins
