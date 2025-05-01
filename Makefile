@@ -75,6 +75,9 @@ create-kafka-topics:
 	docker exec -it broker kafka-topics --bootstrap-server broker:9092 --create --topic connect-status --partitions 1 --replication-factor 1 --config cleanup.policy=compact || true
 
 generate-protobuf-java-source:
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
+	export PATH="$$PATH:$(go env GOPATH)/bin" && \
+	protoc --proto_path=./schemas/protobuf --go_out=./applications/go-api/proto Customer.proto EntityMessageKey.proto && \
 	cd ./applications/java-streams && ./mvnw generate-sources
 
 start-tenants:

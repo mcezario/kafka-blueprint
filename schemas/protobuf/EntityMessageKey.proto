@@ -2,6 +2,7 @@ syntax = "proto3";
 package org.mcezario.schema.protobuf;
 
 option java_multiple_files = true;
+option go_package = ".;proto";
 
 message EntityMessageKey {
   string scope = 1;
