@@ -4,22 +4,22 @@ import (
     "bytes"
     "fmt"
     "encoding/binary"
-	"log"
+    "log"
 
-	"github.com/confluentinc/confluent-kafka-go/kafka"
-	protobuf "google.golang.org/protobuf/proto"
+    "github.com/confluentinc/confluent-kafka-go/kafka"
+    protobuf "google.golang.org/protobuf/proto"
 )
 
 type KafkaProducer struct {
-	producer *kafka.Producer
+    producer *kafka.Producer
 }
 
 var producerInstance *KafkaProducer
 
 func InitKafkaProducer(brokerAddress string) error {
-	p, err := kafka.NewProducer(&kafka.ConfigMap{
-    		"bootstrap.servers": brokerAddress,
-    	})
+    p, err := kafka.NewProducer(&kafka.ConfigMap{
+        "bootstrap.servers": brokerAddress,
+    })
     if err != nil {
         return err
     }
@@ -29,25 +29,25 @@ func InitKafkaProducer(brokerAddress string) error {
 }
 
 func GetKafkaProducer() *KafkaProducer {
-	if producerInstance == nil {
-		log.Fatal("Kafka producer not initialized")
-	}
-	return producerInstance
+    if producerInstance == nil {
+        log.Fatal("Kafka producer not initialized")
+    }
+    return producerInstance
 }
 
 func (kp *KafkaProducer) Produce(topic string, key []byte, value []byte) error {
-	return kp.producer.Produce(&kafka.Message{
-		TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
-		Key:            key,
-		Value:          value,
-	}, nil)
+    return kp.producer.Produce(&kafka.Message{
+        TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
+        Key:            key,
+        Value:          value,
+    }, nil)
 }
 
 func EncodeProtobufWithSchema(message protobuf.Message, schemaID int) ([]byte, error) {
-	serialized, err := protobuf.Marshal(message)
-	if err != nil {
-		return nil, err
-	}
+    serialized, err := protobuf.Marshal(message)
+    if err != nil {
+        return nil, err
+    }
 
     // Create a buffer for the Confluent wire format
     var buf bytes.Buffer
