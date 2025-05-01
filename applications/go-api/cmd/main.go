@@ -13,7 +13,7 @@ func main() {
         log.Fatalf("Kafka init failed: %v", err)
     }
 
-	// Initialize Schema Registry client
+    // Initialize Schema Registry client
     kafka.InitSchemaManager("http://localhost:8081")
 
     // Register schemas
