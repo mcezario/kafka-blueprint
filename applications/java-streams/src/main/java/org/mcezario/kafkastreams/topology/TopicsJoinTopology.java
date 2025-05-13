@@ -8,6 +8,7 @@ import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.*;
 import org.mcezario.kafkastreams.serde.SchemaRegistrySerdeFactory;
+import org.mcezario.kafkastreams.serde.TenantDebeziumJson;
 import org.mcezario.kafkastreams.serde.TenantJson;
 import org.mcezario.schema.protobuf.Customer;
 import org.mcezario.schema.protobuf.CustomerEnriched;
@@ -43,13 +44,22 @@ public class TopicsJoinTopology {
         KafkaProtobufSerde<EntityMessageKey> entityKeySerde = schemaRegistrySerdeFactory.create(EntityMessageKey.class, true);
         KafkaProtobufSerde<Customer> customersSerde = schemaRegistrySerdeFactory.create(Customer.class, false);
         KafkaProtobufSerde<CustomerEnriched> customerEnrichedSerde = schemaRegistrySerdeFactory.create(CustomerEnriched.class, false);
+        JsonSerde<TenantDebeziumJson> tenantDebeziumSerde = new JsonSerde<>(TenantDebeziumJson.class, new ObjectMapper());
         JsonSerde<TenantJson> tenantSerde = new JsonSerde<>(TenantJson.class, new ObjectMapper());
 
         // Read topics
         final KTable<Long, TenantJson> tenantsTable = builder
-                .stream(TENANTS_TOPIC, Consumed.with(Serdes.Long(), tenantSerde))
-                .selectKey((k, v) -> v.getId())
-                .toTable(Named.as("tenants-by-id"));
+                .stream(TENANTS_TOPIC, Consumed.with(Serdes.Long(), tenantDebeziumSerde))
+                .filter((k, v) -> v != null && (v.getAfter() != null || v.getBefore() != null))
+                .selectKey((k, v) -> {
+                    TenantJson tenant = v.getAfter() != null ? v.getAfter() : v.getBefore();
+                    return tenant != null ? tenant.getId() : null;
+                })
+                .mapValues(v -> v.getAfter() != null ? v.getAfter() : v.getBefore())
+                .toTable(
+                        Named.as("tenants-by-id"),
+                        Materialized.with(Serdes.Long(), tenantSerde)
+                );
 
         final KStream<Long, Customer> customersTable = builder
                 .stream(CUSTOMERS_TOPIC, Consumed.with(entityKeySerde, customersSerde))
@@ -67,7 +77,7 @@ public class TopicsJoinTopology {
         branches.get(BRANCH_PREFIX + BRANCH_JOIN_SUCCESS)
                 .to(CUSTOMERS_ENRICHED_TOPIC, Produced.with(entityKeySerde, customerEnrichedSerde));
         branches.get(BRANCH_PREFIX + BRANCH_JOIN_ERROR)
-                .mapValues((k,v) -> v.getCustomer())
+                .mapValues((k, v) -> v.getCustomer())
                 .to(CUSTOMERS_WITHOUT_TENANT_TOPIC, Produced.with(entityKeySerde, customersSerde));
 
         return builder.build();
